@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph-engineering-market-intelligence"
+version = "0.1.0"
+description = "Graph Engineering starter kit for AI-native founders"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40.0",
+    "google-genai>=1.0.0",
+    "tavily-python>=0.5.0",
+    "httpx>=0.28.0",
+    "python-dateutil>=2.9.0",
+    "python-dotenv>=1.0.0",
+    "markdown>=3.7",
+    "resend>=2.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.pyright]
+extraPaths = ["."]

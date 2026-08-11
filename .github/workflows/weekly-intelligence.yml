@@ -1,0 +1,49 @@
+name: Weekly Founder Market Intelligence
+
+on:
+  schedule:
+    - cron: '0 8 * * 5'
+  workflow_dispatch:
+
+jobs:
+  run-intelligence-graph:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run intelligence graph
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_RECIPIENT_EMAIL: ${{ secrets.RESEND_RECIPIENT_EMAIL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python main.py
+
+      - name: Commit and push generated brief archive
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add intel_archive/
+          if git diff --staged --quiet; then
+            echo "No new brief to commit."
+          else
+            git commit -m "chore: archive weekly founder intelligence brief [skip ci]"
+            git push
+          fi

@@ -1,0 +1,10 @@
+anthropic>=0.40.0
+google-genai>=1.0.0
+tavily-python>=0.5.0
+httpx>=0.28.0
+python-dateutil>=2.9.0
+python-dotenv>=1.0.0
+markdown>=3.7
+resend>=2.0.0
+
+
