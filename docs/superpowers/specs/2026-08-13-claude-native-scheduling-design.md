@@ -121,6 +121,11 @@ Plain-language walkthrough for a non-technical founder:
    `nodes/skeptic.md`, `nodes/synthesis.md`, add/edit files in `scouts/`.
    Nothing here is Claude-native-specific.
 
+The guide's own data-flow diagram (mirroring the one below) must label each
+agent with the model it runs on, so a reader can see the cost/quality
+tradeoff at a glance and knows which frontmatter `model:` line to edit if
+they want to change it.
+
 ### README update
 
 A short new section, "Run without GitHub Actions (Claude-native)," pointing
@@ -132,13 +137,16 @@ API keys or GitHub Actions secrets. Repository structure listing gains
 
 ```text
 nodes/context.md ──────────────┐
-scouts/*.md (N files) ──▶ research-scout ×N (parallel, WebSearch) ──▶ raw findings
+scouts/*.md (N files) ──▶ research-scout ×N [Haiku] (parallel, WebSearch) ──▶ raw findings
                                           │
                                           ▼
-                    skeptic (reads nodes/skeptic.md) ──▶ audited findings
+                    skeptic [Sonnet] (reads nodes/skeptic.md) ──▶ audited findings
                                           │
                                           ▼
-             synthesizer (reads nodes/synthesis.md + context) ──▶ final brief
+       synthesizer [Sonnet, Opus-adjustable] (reads nodes/synthesis.md + context)
+                                          │
+                                          ▼
+                                    final brief
                                           │
                        ┌──────────────────┼──────────────────┐
                        ▼                  ▼                  ▼
@@ -146,6 +154,14 @@ scouts/*.md (N files) ──▶ research-scout ×N (parallel, WebSearch) ──�
                                                                message =
                                                                delivery
 ```
+
+| Agent | Model | Why |
+| --- | --- | --- |
+| `research-scout` | Haiku | Simple search-and-report job, run several times per pipeline execution in parallel — cheapest tier keeps a weekly run inexpensive. |
+| `skeptic` | Sonnet | Needs real judgment to separate evidence from PR language and grade confidence — worth the mid tier. |
+| `synthesizer` | Sonnet (swap to Opus in frontmatter for more weight on the final brief) | Produces the one artifact the founder actually reads; quality matters most here, and it only runs once per week. |
+
+This table (or an equivalent one) is reproduced in `guides/claude-native-setup.md` so a reader can see the cost/quality tradeoff without opening the agent files.
 
 ## Error handling
 
