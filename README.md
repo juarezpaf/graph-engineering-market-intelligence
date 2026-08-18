@@ -109,6 +109,13 @@ This makes the repository useful as a demonstration without exposing private pro
 
 ```text
 .
+├── .claude/
+│   ├── agents/
+│   │   ├── research-scout.md
+│   │   ├── skeptic.md
+│   │   └── synthesizer.md
+│   └── commands/
+│       └── market-intel.md
 ├── .github/
 │   └── workflows/
 │       └── weekly-intelligence.yml
@@ -144,7 +151,8 @@ This makes the repository useful as a demonstration without exposing private pro
 │   ├── gemini-api-key.md
 │   ├── resend-api-key.md
 │   ├── slack-webhook-url.md
-│   └── tavily-api-key.md
+│   ├── tavily-api-key.md
+│   └── claude-native-setup.md
 ├── main.py
 ├── requirements.txt
 ├── requirements-dev.txt
@@ -165,6 +173,14 @@ The exact Python module names may vary, but the important customization surface 
 - Python 3.11 or newer for local execution.
 
 The default setup is designed to run without paid services. Claude is an optional alternative for users who prefer Anthropic models and have access to a paid Claude API account.
+
+## Run without GitHub Actions (Claude-native)
+
+If you don't want to manage GitHub Actions secrets or sign up for Tavily, Gemini/Anthropic, and Resend, there's a second way to run this: entirely inside Claude, using Claude's own web search and Claude's own scheduled tasks. No API keys, no `.env` file, no code changes — just this repository and a Claude account.
+
+See [guides/claude-native-setup.md](guides/claude-native-setup.md) for the full walkthrough. Both paths read the same `nodes/` and `scouts/` files and write to the same `intel_archive/` folder, so you can use either one — or both — without maintaining two configurations.
+
+The rest of this README describes the original GitHub Actions path.
 
 ## Quick start
 
